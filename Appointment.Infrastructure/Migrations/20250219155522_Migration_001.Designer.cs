@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Appointment.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250219022948_Migration_001")]
+    [Migration("20250219155522_Migration_001")]
     partial class Migration_001
     {
         /// <inheritdoc />

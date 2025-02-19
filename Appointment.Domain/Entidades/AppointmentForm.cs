@@ -11,5 +11,11 @@
         public string DoctorId { get; set; }
 
         public DateTime AppointmentDate { get; set; }
+        public AppointmentForm()
+        {
+            Email = "";
+            Phone = "";
+            DoctorId = "";
+        }
     }
 }
