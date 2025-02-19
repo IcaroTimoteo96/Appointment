@@ -23,17 +23,25 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
-
-      - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
-
+      - name: Build projects
+        run: |
+           dotnet build -c Release Appointment.Domain/Appointment.Domain.csproj
+           dotnet build -c Release Appointment.Application/Appointment.Application.csproj
+           dotnet build -c Release Appointment.Infrastructure/Appointment.Infrastructure.csproj
+           dotnet build -c Release Appointment/Appointment.csproj
+       
+      - name: Publish projects
+        run: |
+           dotnet publish -c Release -o ./publish/Appointment.Domain Appointment.Domain/Appointment.Domain.csproj
+           dotnet publish -c Release -o ./publish/Appointment.Application Appointment.Application/Appointment.Application.csproj
+           dotnet publish -c Release -o ./publish/Appointment.Infrastructure Appointment.Infrastructure/Appointment.Infrastructure.csproj
+           dotnet publish -c Release -o ./publish/Appointment Appointment/Appointment.csproj
+           
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: .appointment-app
+          path: publish
 
   deploy:
     runs-on: windows-latest
