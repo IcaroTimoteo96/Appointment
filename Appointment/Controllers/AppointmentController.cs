@@ -2,13 +2,12 @@ using Appointment.Application.BaseResponse;
 using Appointment.Application.Request;
 using Appointment.Application.Response;
 using Appointment.Application.UseCases;
-using Appointment.Domain.Entidades;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Appointment.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("Appointment")]
 public class AppointmentController : ControllerBase
 {
     private readonly AppointmentUseCase _appointmentUseCase;

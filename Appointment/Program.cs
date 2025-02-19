@@ -22,13 +22,18 @@ builder.Services.AddScoped<IAppointmentFormRepository, AppointmentFormRepository
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        builder => builder.AllowAnyOrigin()
-                          .AllowAnyMethod()
-                          .AllowAnyHeader());
+    options.AddPolicy("MyCorsPolicy", builder =>
+    {
+        builder.WithOrigins("http://127.0.0.1:5173", "https://boisterous-salmiakki-4ba650.netlify.app") 
+               .WithMethods("POST", "GET") 
+               .WithHeaders("Content-Type", "Authorization"); 
+    });
 });
 
+
 var app = builder.Build();
+
+app.UseCors("MyCorsPolicy");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -42,7 +47,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseCors("AllowAll");
 
 app.Run();
