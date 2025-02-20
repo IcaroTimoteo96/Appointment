@@ -20,20 +20,21 @@ builder.Services.AddScoped<AppointmentUseCase>();
 
 builder.Services.AddScoped<IAppointmentFormRepository, AppointmentFormRepository>();
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("MyCorsPolicy", builder =>
+    options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
     {
-        builder.WithOrigins("http://127.0.0.1:5173", "https://boisterous-salmiakki-4ba650.netlify.app") 
-               .WithMethods("POST")
-               .WithHeaders("Content-Type", "Accept"); ; 
+        policy.WithOrigins(
+                "http://127.0.0.1:5173",
+                "https://boisterous-salmiakki-4ba650.netlify.app") 
+              .WithMethods("POST") 
+              .WithHeaders("Content-Type", "Accept"); 
     });
 });
 
-
 var app = builder.Build();
-
-app.UseCors("MyCorsPolicy");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -43,6 +44,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
 
