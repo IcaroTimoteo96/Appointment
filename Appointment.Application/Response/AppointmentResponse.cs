@@ -17,6 +17,7 @@
         public AppointmentResponse()
         {
             Id = 0;
+            Name = "";
             Email = "";
             Phone = "";
             DoctorId = "";
