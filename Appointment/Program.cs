@@ -6,10 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -28,20 +26,16 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                 "http://127.0.0.1:5173",
-                "https://boisterous-salmiakki-4ba650.netlify.app") 
-              .WithMethods("POST") 
-              .WithHeaders("Content-Type", "Accept"); 
+                "https://boisterous-salmiakki-4ba650.netlify.app")
+              .WithMethods("POST")
+              .WithHeaders("Content-Type", "Accept");
     });
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
