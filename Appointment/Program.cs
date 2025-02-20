@@ -25,8 +25,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("MyCorsPolicy", builder =>
     {
         builder.WithOrigins("http://127.0.0.1:5173", "https://boisterous-salmiakki-4ba650.netlify.app") 
-               .WithMethods("POST", "GET") 
-               .WithHeaders("Content-Type", "Authorization"); 
+               .WithMethods("POST")
+               .WithHeaders("Content-Type", "Accept"); ; 
     });
 });
 
