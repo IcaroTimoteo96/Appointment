@@ -23,25 +23,17 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      - name: Build projects
-        run: |
-           dotnet build -c Release Appointment.Domain/Appointment.Domain.csproj
-           dotnet build -c Release Appointment.Application/Appointment.Application.csproj
-           dotnet build -c Release Appointment.Infrastructure/Appointment.Infrastructure.csproj
-           dotnet build -c Release Appointment/Appointment.csproj
-       
-      - name: Publish projects
-        run: |
-           dotnet publish -c Release -o ./publish/Appointment.Domain Appointment.Domain/Appointment.Domain.csproj
-           dotnet publish -c Release -o ./publish/Appointment.Application Appointment.Application/Appointment.Application.csproj
-           dotnet publish -c Release -o ./publish/Appointment.Infrastructure Appointment.Infrastructure/Appointment.Infrastructure.csproj
-           dotnet publish -c Release -o ./publish/Appointment Appointment/Appointment.csproj
-           
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+
+      - name: dotnet publish
+        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .appointment-app
-          path: publish
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: windows-latest
@@ -57,14 +49,14 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: .appointment-app
+          name: .net-app
       
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_44977F973B0C46EB84C38896B1622E06 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BCDA66E86E974E06AD8E20B4B022177D }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_433BCDAF33F746348F8D1EE25ED8CDA9 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3E52A01D0E0B4B89A5EB010A353DFC0E }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_113524F796634B5E9E20F32015D1EA88 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D46776E068174884B4C9780FAE26ECC1 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
